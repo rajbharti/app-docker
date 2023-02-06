@@ -12,7 +12,7 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send(`
-  <h1>Use following endpoints</h1>
+  <h2>Use following endpoints</h2>
   <pre>
     GET:     /books
     GET:     /books/:id

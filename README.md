@@ -70,10 +70,11 @@ Check running containers with `docker ps`
 docker exec -it demo-api-mongo mongosh "mongodb://admin:admin@localhost:27017"
 ```
 
-#### 5. Start the Node.js application
+#### 5. Start the api application
 
 ```
 cd app
+# copy .env.example to .env in the same location and set the username and password
 npm install
 npm start
 ```
