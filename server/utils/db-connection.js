@@ -1,8 +1,14 @@
 require("dotenv").config();
 const { MongoClient } = require("mongodb");
 
+console.log(
+  "----",
+  process.env.MONGODB_USERNAME,
+  process.env.MONGODB_PASSWORD,
+  "---"
+);
 // MongoDB connection instance
-const uri = `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_USERNAME}@localhost:27017`;
+const uri = `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@localhost:27017`;
 const client = new MongoClient(uri);
 
 // MongoDB connection

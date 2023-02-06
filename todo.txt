@@ -1,0 +1,5 @@
+# after docker-compose mongodb connection not performing
+# docker-compose creating none:none image!
+# docker - how to work with env variables in production
+# package.json - one package.json or multiple
+# update README.md

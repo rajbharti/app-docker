@@ -1,11 +1,12 @@
 {
-  "name": "demo-docker-express-mongo",
+  "name": "app-docker",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --inspect"
+    "dev": "nodemon --inspect",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",

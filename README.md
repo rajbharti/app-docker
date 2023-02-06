@@ -26,57 +26,85 @@ DELETE:  /books/:id
 - MongoDB
 - Node.js
 
-## Running with Docker
+## 1. Running with Docker
 
-#### 1. Create docker network
+#### Create docker network
 
 ```
-docker network create mongo-network
+docker network create app-network
 ```
 
-#### 2. Start mongo
+#### Start mongo
 
 ```
 docker run -d \
-	--name demo-api-mongo \
-	--network mongo-network \
+	--name app-mongo-1 \
+	--network app-network \
 	-p 27017:27017 \
 	-e MONGO_INITDB_ROOT_USERNAME=admin \
 	-e MONGO_INITDB_ROOT_PASSWORD=admin \
 	mongo
 ```
 
-#### 3. Start mongo-express
+#### Start mongo-express
 
 ```
 docker run -d \
-	--name demo-api-mongo-express \
-	--network mongo-network \
+	--name app-mongo-express-1 \
+	--network app-network \
 	-p 8081:8081 \
 	-e ME_CONFIG_MONGODB_ADMINUSERNAME=admin \
 	-e ME_CONFIG_MONGODB_ADMINPASSWORD=admin \
-	-e ME_CONFIG_MONGODB_SERVER=demo-api-mongo \
+	-e ME_CONFIG_MONGODB_SERVER=app-mongo-1 \
 	mongo-express
 ```
 
-Check running containers with `docker ps`
-
-#### 4. To view mongodb
+#### To view mongodb
 
 - Open **mongo-express** from browser `http://localhost:8081` to view mongodb as web based interface
 - or connect to **mongodb** from `mongosh` cli
 
 ```
-docker exec -it demo-api-mongo mongosh "mongodb://admin:admin@localhost:27017"
+docker exec -it app-mongo-1 mongosh -u admin -p admin
 ```
 
-#### 5. Start the api application
+#### Start the application
 
 ```
-cd app
+cd client
 # copy .env.example to .env in the same location and set the username and password
 npm install
 npm start
 ```
 
-Open the application in browser by http://localhost:5000
+- Open the application in browser by http://localhost:3001
+
+## 2. Running with Docker Compose
+
+#### Create the containers
+
+- Run following from root of project
+
+```
+docker-compose up -d --build
+```
+
+#### Start the application
+
+- Open the application in browser by http://localhost:3001
+
+## 3. Running from Image
+
+#### Create the images
+
+- Run following from root of project
+
+```
+docker build -t app-docker . --no-cache
+```
+
+#### Start the image
+
+```
+docker run -d --name app-docker-1 -p 3001:3001 app-docker
+```
