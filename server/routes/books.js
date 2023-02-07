@@ -1,6 +1,6 @@
 const { ObjectId } = require("mongodb");
 const express = require("express");
-const { dbConnection, closeDbConnection } = require("../utils/db-connection");
+const { getDb, closeDb } = require("../utils/db");
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ const router = express.Router();
  */
 router.get("/", async (req, res) => {
   try {
-    const db = await dbConnection();
+    const db = await getDb();
 
     const result = await db.collection("docker").find({}).toArray();
     res.json(result);
@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
     console.error(e);
     res.status(400).json({ error: "Error in querying books" });
   } finally {
-    await closeDbConnection();
+    await closeDb();
   }
 });
 
@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
  */
 router.get("/:id", async (req, res) => {
   try {
-    const db = await dbConnection();
+    const db = await getDb();
 
     const result = await db
       .collection("docker")
@@ -37,7 +37,7 @@ router.get("/:id", async (req, res) => {
     console.error(e);
     res.status(400).json({ error: "Error in querying a book" });
   } finally {
-    await closeDbConnection();
+    await closeDb();
   }
 });
 
@@ -46,7 +46,7 @@ router.get("/:id", async (req, res) => {
  */
 router.post("/", async (req, res) => {
   try {
-    const db = await dbConnection();
+    const db = await getDb();
 
     const result = await db.collection("docker").insertOne(req.body);
     res.status(200).send(result);
@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
     console.error(e);
     res.status(400).json({ error: "Error in creating a new book" });
   } finally {
-    await closeDbConnection();
+    await closeDb();
   }
 });
 
@@ -63,7 +63,7 @@ router.post("/", async (req, res) => {
  */
 router.put("/:id", async (req, res) => {
   try {
-    const db = await dbConnection();
+    const db = await getDb();
 
     const result = await db.collection("docker").updateOne(
       { _id: new ObjectId(req.params.id) },
@@ -76,7 +76,7 @@ router.put("/:id", async (req, res) => {
     console.error(e);
     res.status(400).json({ error: "Error in updating a book" });
   } finally {
-    await closeDbConnection();
+    await closeDb();
   }
 });
 
@@ -85,7 +85,7 @@ router.put("/:id", async (req, res) => {
  */
 router.delete("/:id", async (req, res) => {
   try {
-    const db = await dbConnection();
+    const db = await getDb();
 
     const result = await db
       .collection("docker")
@@ -95,7 +95,7 @@ router.delete("/:id", async (req, res) => {
     console.error(e);
     res.status(400).json({ error: "Error in deleting a book" });
   } finally {
-    await closeDbConnection();
+    await closeDb();
   }
 });
 

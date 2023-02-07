@@ -1,18 +1,12 @@
 require("dotenv").config();
 const { MongoClient } = require("mongodb");
 
-console.log(
-  "----",
-  process.env.MONGODB_USERNAME,
-  process.env.MONGODB_PASSWORD,
-  "---"
-);
 // MongoDB connection instance
-const uri = `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@localhost:27017`;
+const uri = `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}:27017`;
 const client = new MongoClient(uri);
 
-// MongoDB connection
-async function dbConnection() {
+// MongoDB connection and db return
+async function getDb() {
   try {
     await client.connect();
     console.log("mongodb:", "connected to server.");
@@ -26,12 +20,12 @@ async function dbConnection() {
 }
 
 // MongoDB close connection
-async function closeDbConnection() {
+async function closeDb() {
   await client.close();
   console.log("mongodb:", "connection closed.");
 }
 
 module.exports = {
-  dbConnection,
-  closeDbConnection,
+  getDb,
+  closeDb,
 };
