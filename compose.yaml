@@ -1,13 +1,16 @@
-version: "3.9"
 services:
+  # client:
   server:
+    restart: always
     build: ./server
     ports:
       - 3001:3001
     environment:
       - MONGODB_USERNAME=admin
       - MONGODB_PASSWORD=admin
+      - MONGODB_HOST=mongo
   mongo:
+    restart: always
     image: mongo
     ports:
       - 27017:27017
@@ -15,10 +18,10 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=admin
     volumes:
-      - mongo-data:/data/db
+      - db-data:/data/db
   mongo-express:
-    image: mongo-express
     restart: always
+    image: mongo-express
     ports:
       - 8081:8081
     environment:
@@ -26,4 +29,4 @@ services:
       - ME_CONFIG_MONGODB_ADMINPASSWORD=admin
       - ME_CONFIG_MONGODB_SERVER=mongo
 volumes:
-  mongo-data:
+  db-data:

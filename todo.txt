@@ -1,5 +1,4 @@
-# after docker-compose mongodb connection not performing
-# docker-compose creating none:none image!
+# after building the image app is not connecting to db!
+    - there is only one container. how it will interact with others?
+    - it image considering localhost for db connection!!!git
 # docker - how to work with env variables in production
-# package.json - one package.json or multiple
-# update README.md

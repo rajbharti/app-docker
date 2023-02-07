@@ -5,6 +5,6 @@ COPY ./server/package* ./
 RUN npm i
 COPY ./server ./
 
-EXPOSE 3001
+EXPOSE 3000
 
 CMD ["npm", "start"]
