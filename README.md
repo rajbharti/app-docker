@@ -1,21 +1,10 @@
 # Multi-container application running with Docker
 
-A simple api application with following endpoints
-
-```
-GET:     /books
-GET:     /books
-GET:     /books/:id
-POST:    /books
-PUT:     /books/:id
-DELETE:  /books/:id
-```
+A simple books application
 
 ## Tech Stack
 
-- [Node](https://nodejs.org/)
-- [Express](http://expressjs.com/)
-- [MongoDB](https://www.mongodb.com/)
+- [MERN stack](https://www.mongodb.com/mern-stack)
 - [Docker](https://www.docker.com/)
   - images
     - [mongo](https://hub.docker.com/_/mongo) _(mongodb)_
@@ -24,11 +13,9 @@ DELETE:  /books/:id
 ## Prerequisites
 
 - Install [Node](https://nodejs.org/en/download/)
-- Insall [Docker](https://docs.docker.com/desktop/)
+- Install [Docker](https://docs.docker.com/desktop/)
 
 ## 1. Running application with `docker-compose`
-
-#### Create and run the containers
 
 - Run following from root of project
 
@@ -36,16 +23,23 @@ DELETE:  /books/:id
 docker-compose up -d
 ```
 
+- Pull & create images
+- Create containers, network, volume
+
 #### Start the application
 
-- Open the application in browser by http://localhost:3001
+- Open http://localhost:3000
 
-#### Remove created containers, network & volumes
+#### Remove created containers, network & volume
 
 - Run following from root of project
 
 ```bash
-docker-compose down --volumes # created network removed after removing containers
+# remove containers
+docker-compose down --volumes
+
+# to remove app images also
+# docker-compose down --volumes --rmi "local"
 ```
 
 ## 2. Running application with `docker run`
@@ -106,13 +100,18 @@ npm i
 npm run dev
 ```
 
-- Open the application in browser by http://localhost:3001
+- Open http://localhost:3000
 
 #### Remove created containers, network & volume
 
 ```bash
+# remove containers
 docker rm -f app-docker-mongo
 docker rm -f app-docker-mongo-express
+
+# remove network
 docker network rm app-docker-network
+
+# remove volume
 docker volume rm app-docker-db-volume
 ```
