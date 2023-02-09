@@ -1,4 +1,0 @@
-# after building the image app is not connecting to db!
-    - there is only one container. how it will interact with others?
-    - it image considering localhost for db connection!!!git
-# docker - how to work with env variables in production

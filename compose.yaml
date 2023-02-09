@@ -1,7 +1,6 @@
 services:
   # client:
   server:
-    restart: always
     build: ./server
     ports:
       - 3001:3001
@@ -10,7 +9,6 @@ services:
       - MONGODB_PASSWORD=admin
       - MONGODB_HOST=mongo
   mongo:
-    restart: always
     image: mongo
     ports:
       - 27017:27017
