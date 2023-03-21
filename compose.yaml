@@ -1,13 +1,13 @@
 services:
-  # client:
-  server:
-    build: ./server
+  # ui:
+  api:
+    build: ./api
     ports:
       - 3001:3001
     environment:
+      - MONGODB_HOST=mongo
       - MONGODB_USERNAME=admin
       - MONGODB_PASSWORD=admin
-      - MONGODB_HOST=mongo
   mongo:
     image: mongo
     ports:

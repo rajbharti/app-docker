@@ -1,0 +1,31 @@
+{
+  "name": "app-docker",
+  "version": "1.0.0",
+  "description": "A simple books application",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky install",
+    "prettier:options": "prettier --ignore-unknown api/**",
+    "lint:prettier": "npm run prettier:options -- --check",
+    "fix:prettier": "npm run prettier:options -- --write"
+  },
+  "lint-staged": {
+    "api/**": "prettier --write --ignore-unknown"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rajbharti/app-docker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rajbharti/app-docker/issues"
+  },
+  "homepage": "https://github.com/rajbharti/app-docker#readme",
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.1",
+    "prettier": "2.8.4"
+  }
+}

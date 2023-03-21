@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
   try {
     const db = await getDb();
 
-    const result = await db.collection("docker").find({}).toArray();
+    const result = await db.collection("tech").find({}).toArray();
     res.json(result);
   } catch (e) {
     console.error(e);
@@ -29,7 +29,7 @@ router.get("/:id", async (req, res) => {
     const db = await getDb();
 
     const result = await db
-      .collection("docker")
+      .collection("tech")
       .find({ _id: new ObjectId(req.params.id) })
       .toArray();
     res.json(result);
@@ -48,7 +48,7 @@ router.post("/", async (req, res) => {
   try {
     const db = await getDb();
 
-    const result = await db.collection("docker").insertOne(req.body);
+    const result = await db.collection("tech").insertOne(req.body);
     res.status(200).send(result);
   } catch (e) {
     console.error(e);
@@ -65,7 +65,7 @@ router.put("/:id", async (req, res) => {
   try {
     const db = await getDb();
 
-    const result = await db.collection("docker").updateOne(
+    const result = await db.collection("tech").updateOne(
       { _id: new ObjectId(req.params.id) },
       {
         $set: req.body,
@@ -88,7 +88,7 @@ router.delete("/:id", async (req, res) => {
     const db = await getDb();
 
     const result = await db
-      .collection("docker")
+      .collection("tech")
       .deleteOne({ _id: new ObjectId(req.params.id) });
     res.send(result);
   } catch (e) {

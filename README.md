@@ -1,10 +1,20 @@
 # Multi-container application running with Docker
 
-A simple books application
+A simple books api application
+
+```
+GET:     /books
+GET:     /books/:id
+POST:    /books
+PUT:     /books/:id
+DELETE:  /books/:id
+```
 
 ## Tech Stack
 
-- [MERN stack](https://www.mongodb.com/mern-stack)
+- [Node](https://nodejs.org/)
+- [Express](http://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
 - [Docker](https://www.docker.com/)
   - images
     - [mongo](https://hub.docker.com/_/mongo) _(mongodb)_
@@ -19,46 +29,61 @@ A simple books application
 
 - Run following from root of project
 
-```bash
+```shell
 docker-compose up -d
 ```
 
 - Pull & create images
-- Create containers, network, volume
+- Create network, volume, containers
 
 #### Start the application
 
-- Open http://localhost:3000
+- Open http://localhost:3001
+
+#### To view app files and mongodb
+
+```shell
+# To view app files
+docker exec -it app-docker-api-1 sh
+ls
+
+# To view mongodb from mongosh
+docker exec -it app-docker-mongo-1 mongosh -u admin -p admin
+show dbs
+
+# To view mongodb from browser
+http://localhost:8081
+```
 
 #### Remove created containers, network & volume
 
 - Run following from root of project
 
-```bash
+```shell
 # remove containers
 docker-compose down --volumes
 
 # to remove app images also
-# docker-compose down --volumes --rmi "local"
+docker-compose down --volumes --rmi "local"
 ```
 
 ## 2. Running application with `docker run`
 
 #### Create a docker network
 
-```bash
+```shell
 docker network create app-docker-network
 ```
 
 #### Create a volume to persist mongodb data
 
-```bash
+```shell
 docker volume create app-docker-db-volume
 ```
 
 #### Start mongo in defined network and use defined volume
 
-```bash
+```shell
 docker run -d \
     --name app-docker-mongo \
     --network app-docker-network \
@@ -71,7 +96,7 @@ docker run -d \
 
 #### Start mongo-express in defined network
 
-```bash
+```shell
 docker run -d \
     --name app-docker-mongo-express \
     --network app-docker-network \
@@ -84,30 +109,29 @@ docker run -d \
 
 #### To view mongodb
 
-- Open **mongo-express** from browser http://localhost:8081 to view mongodb as web based interface
-- or connect to **mongodb** from `mongosh` cli
+- Open **mongo-express** from browser by http://localhost:8081 to view mongodb as web based interface
+- or access to **mongodb** from `mongosh` cli
 
-```bash
+```shell
 docker exec -it app-docker-mongo mongosh -u admin -p admin
 ```
 
 #### Start the application
 
-```bash
-cd server
+```shell
+cd api
 # Create copy of .env.example and rename it to .env in the same location
 npm i
 npm run dev
 ```
 
-- Open http://localhost:3000
+- Open http://localhost:3001
 
 #### Remove created containers, network & volume
 
-```bash
+```shell
 # remove containers
-docker rm -f app-docker-mongo
-docker rm -f app-docker-mongo-express
+docker rm -f app-docker-mongo app-docker-mongo-express
 
 # remove network
 docker network rm app-docker-network
