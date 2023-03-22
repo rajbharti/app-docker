@@ -33,8 +33,8 @@ DELETE:  /books/:id
 docker-compose up -d
 ```
 
-- Pull & create images
-- Create network, volume, containers
+- It pull and/or create images.
+- Create network, volume, containers.
 
 #### Start the application
 

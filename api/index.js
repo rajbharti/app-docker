@@ -1,8 +1,15 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const morgan = require("morgan");
 const port = 3001;
 const booksRouter = require("./routes/books");
+
+// enable cors
+const options = {
+  origin: ["http://localhost:3000"],
+};
+app.use(cors(options));
 
 // HTTP logger
 app.use(morgan("short"));

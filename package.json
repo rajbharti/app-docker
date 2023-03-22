@@ -1,16 +1,17 @@
 {
   "name": "app-docker",
+  "private": true,
   "version": "1.0.0",
   "description": "A simple books application",
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
-    "prettier:options": "prettier --ignore-unknown api/**",
+    "prettier:options": "prettier --ignore-unknown .",
     "lint:prettier": "npm run prettier:options -- --check",
     "fix:prettier": "npm run prettier:options -- --write"
   },
   "lint-staged": {
-    "api/**": "prettier --write --ignore-unknown"
+    "**/**": "prettier --write --ignore-unknown"
   },
   "repository": {
     "type": "git",
