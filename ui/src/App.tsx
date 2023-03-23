@@ -1,18 +1,14 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Header from "./components/Header";
-import BooksAddHeader from "./components/BooksAddHeader";
+import Books from "./components/Books";
 
 // create a client
 const queryClient = new QueryClient();
 
-function App() {
+export default function App() {
   return (
     // provide the client to your app
     <QueryClientProvider client={queryClient}>
-      <Header />
-      <BooksAddHeader />
+      <Books />
     </QueryClientProvider>
   );
 }
-
-export default App;

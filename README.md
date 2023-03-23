@@ -1,20 +1,10 @@
 # Multi-container application running with Docker
 
-A simple books api application
-
-```
-GET:     /books
-GET:     /books/:id
-POST:    /books
-PUT:     /books/:id
-DELETE:  /books/:id
-```
+A simple books application
 
 ## Tech Stack
 
-- [Node](https://nodejs.org/)
-- [Express](http://expressjs.com/)
-- [MongoDB](https://www.mongodb.com/)
+- [MERN](https://www.mongodb.com/mern-stack)
 - [Docker](https://www.docker.com/)
   - images
     - [mongo](https://hub.docker.com/_/mongo) _(mongodb)_
@@ -38,7 +28,7 @@ docker-compose up -d
 
 #### Start the application
 
-- Open http://localhost:3001
+- Open http://localhost:3000
 
 #### To view app files and mongodb
 
@@ -125,7 +115,7 @@ npm i
 npm run dev
 ```
 
-- Open http://localhost:3001
+- Open http://localhost:3000
 
 #### Remove created containers, network & volume
 

@@ -4,14 +4,18 @@ const { MongoClient } = require("mongodb");
 // MongoDB connection instance
 const uri = `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}:27017`;
 const client = new MongoClient(uri);
+const defaultDB = "books";
 
-// MongoDB connection and db return
+// MongoDB connection
 async function getDb() {
   try {
+    // establish connection
     await client.connect();
-    console.log("mongodb:", "connected to server.");
-    const db = await client.db("books");
-    console.log("mongodb:", "connected to 'books' db.");
+    console.log("[mongodb]", "connected to server.");
+
+    // return db instance
+    const db = client.db(defaultDB);
+    console.log("[mongodb]", `switched to ${defaultDB} db.`);
 
     return db;
   } catch (e) {
@@ -22,7 +26,7 @@ async function getDb() {
 // MongoDB close connection
 async function closeDb() {
   await client.close();
-  console.log("mongodb:", "connection closed.");
+  console.log("[mongodb]", "connection closed.");
 }
 
 module.exports = {

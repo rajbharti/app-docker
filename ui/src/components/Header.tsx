@@ -1,6 +1,6 @@
 const logoUrl = new URL("../assets/images/logo.png", import.meta.url).href;
 
-function Header() {
+export default function Header() {
   return (
     <header>
       <a href="/">
@@ -9,5 +9,3 @@ function Header() {
     </header>
   );
 }
-
-export default Header;
