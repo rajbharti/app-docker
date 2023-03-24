@@ -1,11 +1,19 @@
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { IBook } from "../types";
-
+import { IBook } from "../utils/types";
+import { OperationType } from "../utils/constants";
+import { saveBook, updateBook } from "../utils/services";
 interface Props {
-  onSubmit: (data: IBook) => void;
+  operationType: OperationType;
+  setToggleForm?: (toggle: boolean) => void;
+  book?: IBook;
 }
 
 const schema = z.object({
@@ -22,20 +30,71 @@ const category: string[] = [
   "Docker",
 ];
 
-export default function BooksAddModifyForm({ onSubmit }: Props) {
-  const { register, handleSubmit, reset, formState } = useForm<IBook>({
+export default function BooksAddModifyForm({
+  operationType,
+  setToggleForm,
+  book,
+}: Props) {
+  const fieldInitialValues = {
+    category: book?.category,
+    name: book?.name,
+    price: book?.price,
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitSuccessful, errors },
+  } = useForm<IBook>({
     resolver: zodResolver(schema),
   });
 
   useEffect(() => {
-    if (formState.isSubmitSuccessful) {
+    if (isSubmitSuccessful) {
       reset();
     }
-  }, [formState, reset]);
+  }, [isSubmitSuccessful, reset]);
+
+  const queryClient: QueryClient = useQueryClient();
+
+  const saveBookMutation = useMutation({
+    mutationFn: async (data: IBook) => await saveBook(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["books"] });
+    },
+  });
+
+  const updateBookMutation = useMutation({
+    mutationFn: async (data: IBook) => await updateBook(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["books"] });
+      setToggleForm?.(false);
+    },
+  });
+
+  const onSubmit: SubmitHandler<IBook> = (data: IBook) => {
+    switch (operationType) {
+      case OperationType.ADD:
+        saveBookMutation.mutate(data);
+        break;
+      case OperationType.EDIT:
+        updateBookMutation.mutate({ _id: book?._id, ...data });
+        break;
+    }
+  };
+
+  const handleCancel: React.MouseEventHandler<HTMLInputElement> = () => {
+    setToggleForm?.(false);
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <select {...register("category")} defaultValue="">
+      <select
+        {...register("category")}
+        defaultValue={fieldInitialValues.category}
+        style={errors.category ? { border: "1px solid red" } : {}}
+      >
         <option value="">Select category</option>
         {category.map((value: string) => (
           <option key={value.toString()} value={value}>
@@ -46,15 +105,23 @@ export default function BooksAddModifyForm({ onSubmit }: Props) {
       <input
         {...register("name")}
         placeholder="Enter book name"
-        defaultValue=""
+        defaultValue={fieldInitialValues.name}
+        style={errors.name ? { border: "1px solid red" } : {}}
       />
       <input
         type="number"
         {...register("price")}
         placeholder="Enter price"
-        defaultValue=""
+        defaultValue={fieldInitialValues.price}
+        style={errors.price ? { border: "1px solid red" } : {}}
       />
       <input type="submit" value="Save" />
+      {operationType === OperationType.ADD && (
+        <input type="reset" value="Reset" />
+      )}
+      {operationType === OperationType.EDIT && (
+        <input type="button" value="Cancel" onClick={handleCancel} />
+      )}
     </form>
   );
 }

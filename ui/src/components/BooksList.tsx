@@ -1,16 +1,14 @@
-import { IBook } from "../types";
-
+import { IBook } from "../utils/types";
+import BookItem from "./BookItem";
 interface Props {
-  data: IBook[];
+  books: [] | IBook[];
 }
-export default function BooksList({ data }: Props) {
+export default function BooksList({ books }: Props) {
   return (
     <section>
       <ul>
-        {data.map((book: IBook) => (
-          <li key={book._id}>
-            {book.category} | {book.name} | {book.price}
-          </li>
+        {books.map((book: IBook) => (
+          <BookItem key={book._id} {...book} />
         ))}
       </ul>
     </section>

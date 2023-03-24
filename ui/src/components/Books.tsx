@@ -1,40 +1,23 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { SubmitHandler } from "react-hook-form";
-import { IBook } from "../types";
-import { getBooks, saveBook } from "../services";
-import BaseLayout from "../layout/BaseLayout";
+import { useQuery } from "@tanstack/react-query";
+import { getBooks } from "../utils/services";
+import { OperationType } from "../utils/constants";
+import BaseLayout from "./BaseLayout";
 import BooksAddModifyForm from "./BooksAddModifyForm";
 import BooksList from "./BooksList";
 
 export default function Books() {
-  // access the client
-  const queryClient = useQueryClient();
-
-  // queries
-  const query = useQuery({
+  const getBooksQuery = useQuery({
     queryKey: ["books"],
     queryFn: async () => await getBooks(),
   });
 
-  console.log({ query });
-  // mutation
-  const mutation = useMutation({
-    mutationFn: async (data: IBook) => await saveBook(data),
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["books"] });
-    },
-  });
-
-  const onSubmit: SubmitHandler<IBook> = (data: IBook) => {
-    mutation.mutate(data);
-  };
+  console.log({ ...getBooksQuery });
 
   return (
     <BaseLayout>
-      <BooksAddModifyForm onSubmit={onSubmit} />
-      {query.isLoading && "loading..."}
-      {query.isFetched && <BooksList data={query.data} />}
+      <BooksAddModifyForm operationType={OperationType.ADD} />
+      {getBooksQuery.isLoading && "loading..."}
+      {getBooksQuery.isFetched && <BooksList books={getBooksQuery.data!} />}
     </BaseLayout>
   );
 }
