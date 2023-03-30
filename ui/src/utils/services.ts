@@ -1,15 +1,22 @@
-import { IBook } from "./types";
+import type { BooksInterface } from "./types";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+interface IEndpoints {
+  getBooks: () => string;
+  saveBook: () => string;
+  updateBook: (_id: string) => string;
+  deleteBook: (_id: string) => string;
+}
 
-const endpoints = {
+const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL;
+
+const endpoints: IEndpoints = {
   getBooks: () => `${API_BASE_URL}/books`,
   saveBook: () => `${API_BASE_URL}/books`,
-  updateBook: (id: string) => `${API_BASE_URL}/books/${id}`,
-  deleteBook: (id: string) => `${API_BASE_URL}/books/${id}`,
+  updateBook: (_id: string) => `${API_BASE_URL}/books/${_id}`,
+  deleteBook: (_id: string) => `${API_BASE_URL}/books/${_id}`,
 };
 
-const options = (options?: Record<string, string>) => ({
+const fetchOptions = (options?: RequestInit): RequestInit => ({
   ...(options ? options : null),
   mode: "cors",
   headers: {
@@ -17,43 +24,47 @@ const options = (options?: Record<string, string>) => ({
   },
 });
 
-export async function getBooks(): Promise<null> {
-  const response = await fetch(endpoints.getBooks(), options() as RequestInit);
+export async function getBooks(): Promise<BooksInterface[]> {
+  const response = await fetch(endpoints.getBooks(), fetchOptions());
 
   return response.json();
 }
 
-export async function saveBook(data: IBook): Promise<IBook> {
+export async function saveBook(
+  data: BooksInterface
+): Promise<Record<string, any>> {
   const response = await fetch(
     endpoints.saveBook(),
-    options({
+    fetchOptions({
       method: "POST",
       body: JSON.stringify(data),
-    }) as RequestInit
+    })
   );
 
   return response.json();
 }
 
-export async function updateBook(data: IBook): Promise<IBook> {
+export async function updateBook(
+  data: BooksInterface
+): Promise<Record<string, any>> {
   const { _id, ...rest } = data;
   const response = await fetch(
-    endpoints.updateBook(_id as string),
-    options({
+    endpoints.updateBook(_id!),
+    fetchOptions({
       method: "PUT",
       body: JSON.stringify(rest),
-    }) as RequestInit
+    })
   );
 
   return response.json();
 }
 
-export async function deleteBook(id: string): Promise<string> {
+export async function deleteBook(id: string): Promise<Record<string, any>> {
   const response = await fetch(
     endpoints.deleteBook(id),
-    options({
+    fetchOptions({
       method: "DELETE",
-    }) as RequestInit
+    })
   );
 
   return response.json();

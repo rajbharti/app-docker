@@ -1,4 +1,1 @@
-export enum OperationType {
-  ADD = "ADD",
-  EDIT = "EDIT",
-}
+export const BOOKS_QUERY_KEY = "books";

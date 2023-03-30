@@ -1,10 +1,10 @@
 import Header from "./Header";
 
-interface Props {
+interface PropsInterface {
   children: React.ReactNode;
 }
 
-export default function BaseLayout({ children }: Props) {
+export default function BaseLayout({ children }: PropsInterface) {
   return (
     <article>
       <Header />

@@ -1,9 +1,13 @@
-const express = require("express");
+import express from "express";
+import cors from "cors";
+import morgan from "morgan";
+import booksRouter from "./routes/books";
+
 const app = express();
-const cors = require("cors");
-const morgan = require("morgan");
 const port = 3001;
-const booksRouter = require("./routes/books");
+
+// parses incoming requests in body with JSON payloads.
+app.use(express.json());
 
 // enable cors
 const options = {
@@ -13,9 +17,6 @@ app.use(cors(options));
 
 // HTTP logger
 app.use(morgan("short"));
-
-// parses incoming requests in body with JSON payloads.
-app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send(`
@@ -31,4 +32,6 @@ app.get("/", (req, res) => {
 
 app.use("/books", booksRouter);
 
-app.listen(port, () => console.log(`Server listening at port ${port}`));
+app.listen(port, () =>
+  console.log(`Server running at http://localhost:${port}`)
+);

@@ -1,20 +1,11 @@
 import { useEffect } from "react";
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { IBook } from "../utils/types";
-import { OperationType } from "../utils/constants";
+import type { BooksInterface, FormOperationType } from "../utils/types";
+import { BOOKS_QUERY_KEY } from "../utils/constants";
 import { saveBook, updateBook } from "../utils/services";
-interface Props {
-  operationType: OperationType;
-  setToggleForm?: (toggle: boolean) => void;
-  book?: IBook;
-}
 
 const schema = z.object({
   category: z.string().min(1),
@@ -22,7 +13,7 @@ const schema = z.object({
   price: z.coerce.number().min(1).max(999),
 });
 
-const category: string[] = [
+const booksCategory: string[] = [
   "JavaScript",
   "Typescript",
   "React",
@@ -30,11 +21,17 @@ const category: string[] = [
   "Docker",
 ];
 
+interface PropsInterface {
+  formOperationType: FormOperationType;
+  setToggleForm?: (toggle: boolean) => void;
+  book?: BooksInterface;
+}
+
 export default function BooksAddModifyForm({
-  operationType,
+  formOperationType,
   setToggleForm,
   book,
-}: Props) {
+}: PropsInterface) {
   const fieldInitialValues = {
     category: book?.category,
     name: book?.name,
@@ -46,7 +43,7 @@ export default function BooksAddModifyForm({
     handleSubmit,
     reset,
     formState: { isSubmitSuccessful, errors },
-  } = useForm<IBook>({
+  } = useForm<BooksInterface>({
     resolver: zodResolver(schema),
   });
 
@@ -56,29 +53,29 @@ export default function BooksAddModifyForm({
     }
   }, [isSubmitSuccessful, reset]);
 
-  const queryClient: QueryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const saveBookMutation = useMutation({
-    mutationFn: async (data: IBook) => await saveBook(data),
+    mutationFn: saveBook,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["books"] });
+      queryClient.invalidateQueries({ queryKey: [BOOKS_QUERY_KEY] });
     },
   });
 
   const updateBookMutation = useMutation({
-    mutationFn: async (data: IBook) => await updateBook(data),
+    mutationFn: updateBook,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["books"] });
+      queryClient.invalidateQueries({ queryKey: [BOOKS_QUERY_KEY] });
       setToggleForm?.(false);
     },
   });
 
-  const onSubmit: SubmitHandler<IBook> = (data: IBook) => {
-    switch (operationType) {
-      case OperationType.ADD:
+  const onSubmit: SubmitHandler<BooksInterface> = (data: BooksInterface) => {
+    switch (formOperationType) {
+      case "add":
         saveBookMutation.mutate(data);
         break;
-      case OperationType.EDIT:
+      case "edit":
         updateBookMutation.mutate({ _id: book?._id, ...data });
         break;
     }
@@ -93,12 +90,12 @@ export default function BooksAddModifyForm({
       <select
         {...register("category")}
         defaultValue={fieldInitialValues.category}
-        style={errors.category ? { border: "1px solid red" } : {}}
+        style={errors.category ? { border: "1px solid red" } : undefined}
       >
         <option value="">Select category</option>
-        {category.map((value: string) => (
-          <option key={value.toString()} value={value}>
-            {value}
+        {booksCategory.map((category: string) => (
+          <option key={category.toString()} value={category}>
+            {category}
           </option>
         ))}
       </select>
@@ -106,20 +103,18 @@ export default function BooksAddModifyForm({
         {...register("name")}
         placeholder="Enter book name"
         defaultValue={fieldInitialValues.name}
-        style={errors.name ? { border: "1px solid red" } : {}}
+        style={errors.name ? { border: "1px solid red" } : undefined}
       />
       <input
         type="number"
         {...register("price")}
         placeholder="Enter price"
         defaultValue={fieldInitialValues.price}
-        style={errors.price ? { border: "1px solid red" } : {}}
+        style={errors.price ? { border: "1px solid red" } : undefined}
       />
       <input type="submit" value="Save" />
-      {operationType === OperationType.ADD && (
-        <input type="reset" value="Reset" />
-      )}
-      {operationType === OperationType.EDIT && (
+      {formOperationType === "add" && <input type="reset" value="Reset" />}
+      {formOperationType === "edit" && (
         <input type="button" value="Cancel" onClick={handleCancel} />
       )}
     </form>

@@ -1,23 +1,19 @@
 import { useState } from "react";
-import {
-  useQueryClient,
-  useMutation,
-  QueryClient,
-} from "@tanstack/react-query";
-import { IBook } from "../utils/types";
-import { OperationType } from "../utils/constants";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import type { BooksInterface } from "../utils/types";
+import { BOOKS_QUERY_KEY } from "../utils/constants";
 import { deleteBook } from "../utils/services";
 import BooksAddModifyForm from "./BooksAddModifyForm";
 
-export default function BookItem(book: IBook) {
+export default function BookItem(book: BooksInterface) {
   const [toggleForm, setToggleForm] = useState(false);
 
-  const queryClient: QueryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const deleteBookMutation = useMutation({
-    mutationFn: async (_id: string) => await deleteBook(_id),
+    mutationFn: deleteBook,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["books"] });
+      queryClient.invalidateQueries({ queryKey: [BOOKS_QUERY_KEY] });
     },
   });
 
@@ -33,7 +29,7 @@ export default function BookItem(book: IBook) {
     <li>
       {toggleForm ? (
         <BooksAddModifyForm
-          operationType={OperationType.EDIT}
+          formOperationType={"edit"}
           setToggleForm={setToggleForm}
           book={book}
         />
