@@ -1,10 +1,11 @@
 # Multi-container application running with Docker
 
-A simple books application
+![](./readme-images/screenshot.png)
 
 ## Tech Stack
 
 - [MERN](https://www.mongodb.com/mern-stack)
+- [Tailwind CSS](https://tailwindcss.com/)
 - [Docker](https://www.docker.com/)
   - images
     - [mongo](https://hub.docker.com/_/mongo) _(mongodb)_
@@ -20,15 +21,14 @@ A simple books application
 - Run following from root of project
 
 ```shell
+# It pulls and/or creates images
+# Creates network, volume, containers
 docker-compose up -d
 ```
 
-- It pull and/or create images.
-- Create network, volume, containers.
-
 #### Start the application
 
-- Open http://localhost:3000
+Open http://localhost:3000
 
 #### To view app files and mongodb
 
@@ -110,12 +110,12 @@ docker exec -it app-docker-mongo mongosh -u admin -p admin
 
 ```shell
 cd api
-# Create copy of .env.example and rename it to .env in the same location
-npm i
-npm run dev
+# Create copy of .env.sample and rename it to .env in the same location
+pnpm i
+pnpm run dev
 ```
 
-- Open http://localhost:3000
+Open http://localhost:3000
 
 #### Remove created containers, network & volume
 

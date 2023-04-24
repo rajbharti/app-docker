@@ -1,9 +1,9 @@
-import express from "express";
+import express, { Express } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import booksRouter from "./routes/books";
 
-const app = express();
+const app: Express = express();
 const port = 3001;
 
 // parses incoming requests in body with JSON payloads.

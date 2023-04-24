@@ -1,4 +1,4 @@
-import type { BooksInterface } from "./types";
+import type { Books } from "../types";
 
 interface IEndpoints {
   getBooks: () => string;
@@ -24,15 +24,13 @@ const fetchOptions = (options?: RequestInit): RequestInit => ({
   },
 });
 
-export async function getBooks(): Promise<BooksInterface[]> {
+export async function getBooks(): Promise<Books[]> {
   const response = await fetch(endpoints.getBooks(), fetchOptions());
 
   return response.json();
 }
 
-export async function saveBook(
-  data: BooksInterface
-): Promise<Record<string, any>> {
+export async function saveBook(data: Books): Promise<Record<string, any>> {
   const response = await fetch(
     endpoints.saveBook(),
     fetchOptions({
@@ -44,9 +42,7 @@ export async function saveBook(
   return response.json();
 }
 
-export async function updateBook(
-  data: BooksInterface
-): Promise<Record<string, any>> {
+export async function updateBook(data: Books): Promise<Record<string, any>> {
   const { _id, ...rest } = data;
   const response = await fetch(
     endpoints.updateBook(_id!),

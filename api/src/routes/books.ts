@@ -1,8 +1,9 @@
-import express from "express";
+import express, { Router } from "express";
 import { ObjectId } from "mongodb";
 import { getDb, closeDb } from "../utils/db";
 
-const router = express.Router();
+const router: Router = express.Router();
+const collection = "tech";
 
 router
   .route("/")
@@ -10,7 +11,7 @@ router
     try {
       const db = await getDb();
 
-      const result = await db?.collection("tech").find({}).toArray();
+      const result = await db?.collection(collection).find({}).toArray();
       res.json(result);
     } catch (e) {
       console.error(e);
@@ -23,7 +24,7 @@ router
     try {
       const db = await getDb();
 
-      const result = await db?.collection("tech").insertOne(req.body);
+      const result = await db?.collection(collection).insertOne(req.body);
       res.status(200).send(result);
     } catch (e) {
       console.error(e);
@@ -39,7 +40,7 @@ router
     try {
       const db = await getDb();
 
-      const result = await db?.collection("tech").updateOne(
+      const result = await db?.collection(collection).updateOne(
         { _id: new ObjectId(req.params.id) },
         {
           $set: req.body,
@@ -58,7 +59,7 @@ router
       const db = await getDb();
 
       const result = await db
-        ?.collection("tech")
+        ?.collection(collection)
         .deleteOne({ _id: new ObjectId(req.params.id) });
       res.send(result);
     } catch (e) {

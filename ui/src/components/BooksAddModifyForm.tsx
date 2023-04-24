@@ -3,14 +3,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import type { BooksInterface, FormOperationType } from "../utils/types";
+import classnames from "classnames";
+import type { Books, FormOperationType } from "../types";
 import { BOOKS_QUERY_KEY } from "../utils/constants";
 import { saveBook, updateBook } from "../utils/services";
 
 const schema = z.object({
   category: z.string().min(1),
   name: z.string().trim().min(5),
-  price: z.coerce.number().min(1).max(999),
+  price: z.coerce.number().min(1).max(9999),
 });
 
 const booksCategory: string[] = [
@@ -21,17 +22,17 @@ const booksCategory: string[] = [
   "Docker",
 ];
 
-interface PropsInterface {
+interface BooksAndModifyFormProps {
   formOperationType: FormOperationType;
   setToggleForm?: (toggle: boolean) => void;
-  book?: BooksInterface;
+  book?: Books;
 }
 
 export default function BooksAddModifyForm({
   formOperationType,
   setToggleForm,
   book,
-}: PropsInterface) {
+}: BooksAndModifyFormProps) {
   const fieldInitialValues = {
     category: book?.category,
     name: book?.name,
@@ -43,7 +44,7 @@ export default function BooksAddModifyForm({
     handleSubmit,
     reset,
     formState: { isSubmitSuccessful, errors },
-  } = useForm<BooksInterface>({
+  } = useForm<Books>({
     resolver: zodResolver(schema),
   });
 
@@ -70,7 +71,7 @@ export default function BooksAddModifyForm({
     },
   });
 
-  const onSubmit: SubmitHandler<BooksInterface> = (data: BooksInterface) => {
+  const onSubmit: SubmitHandler<Books> = (data: Books) => {
     switch (formOperationType) {
       case "add":
         saveBookMutation.mutate(data);
@@ -85,12 +86,19 @@ export default function BooksAddModifyForm({
     setToggleForm?.(false);
   };
 
+  const handleReset: React.MouseEventHandler<HTMLInputElement> = () => {
+    reset();
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex gap-2 items-baseline justify-between"
+    >
       <select
         {...register("category")}
         defaultValue={fieldInitialValues.category}
-        style={errors.category ? { border: "1px solid red" } : undefined}
+        className={classnames("basis-1/4", errors.category && "border-red-400")}
       >
         <option value="">Select category</option>
         {booksCategory.map((category: string) => (
@@ -101,22 +109,30 @@ export default function BooksAddModifyForm({
       </select>
       <input
         {...register("name")}
+        type="text"
         placeholder="Enter book name"
         defaultValue={fieldInitialValues.name}
-        style={errors.name ? { border: "1px solid red" } : undefined}
+        className={classnames("basis-1/3", errors.name && "border-red-400")}
       />
       <input
         type="number"
         {...register("price")}
         placeholder="Enter price"
         defaultValue={fieldInitialValues.price}
-        style={errors.price ? { border: "1px solid red" } : undefined}
+        className={classnames(
+          "w-28 text-right",
+          errors.price && "border-red-400"
+        )}
       />
-      <input type="submit" value="Save" />
-      {formOperationType === "add" && <input type="reset" value="Reset" />}
-      {formOperationType === "edit" && (
-        <input type="button" value="Cancel" onClick={handleCancel} />
-      )}
+      <div className="text-right">
+        {formOperationType === "add" && (
+          <input type="reset" value="Reset" onClick={handleReset} />
+        )}
+        {formOperationType === "edit" && (
+          <input type="button" value="Cancel" onClick={handleCancel} />
+        )}
+        <input type="submit" value="Save" className="ml-2" />
+      </div>
     </form>
   );
 }
