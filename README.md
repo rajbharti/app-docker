@@ -1,20 +1,11 @@
 # Multi-container application running with Docker
 
-A simple books api application
-
-```
-GET:     /books
-GET:     /books/:id
-POST:    /books
-PUT:     /books/:id
-DELETE:  /books/:id
-```
+![](./readme-images/screenshot.png)
 
 ## Tech Stack
 
-- [Node](https://nodejs.org/)
-- [Express](http://expressjs.com/)
-- [MongoDB](https://www.mongodb.com/)
+- [MERN](https://www.mongodb.com/mern-stack)
+- [Tailwind CSS](https://tailwindcss.com/)
 - [Docker](https://www.docker.com/)
   - images
     - [mongo](https://hub.docker.com/_/mongo) _(mongodb)_
@@ -30,15 +21,14 @@ DELETE:  /books/:id
 - Run following from root of project
 
 ```shell
+# It pulls and/or creates images
+# Creates network, volume, containers
 docker-compose up -d
 ```
 
-- Pull & create images
-- Create network, volume, containers
-
 #### Start the application
 
-- Open http://localhost:3001
+Open http://localhost:3000
 
 #### To view app files and mongodb
 
@@ -119,13 +109,19 @@ docker exec -it app-docker-mongo mongosh -u admin -p admin
 #### Start the application
 
 ```shell
+# API
 cd api
-# Create copy of .env.example and rename it to .env in the same location
-npm i
-npm run dev
+# Create copy of .env.sample and rename it to .env in the same location
+pnpm i
+pnpm run dev
+
+# UI
+cd ui
+pnpm i
+pnpm run dev
 ```
 
-- Open http://localhost:3001
+Open http://localhost:3000
 
 #### Remove created containers, network & volume
 

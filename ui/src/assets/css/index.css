@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-100;
+  }
+
+  input[type="reset"],
+  input[type="button"],
+  input[type="submit"],
+  button {
+    cursor: pointer;
+    @apply rounded-2xl border-gray-300 bg-white px-4 py-1 font-semibold text-black focus:outline-none focus:ring-2 focus:ring-slate-300  focus:ring-opacity-75;
+  }
+
+  input[type="submit"] {
+    @apply border-blue-500 bg-blue-500 text-white hover:bg-blue-700 focus:ring-blue-400;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select {
+    @apply rounded-md border-2 px-2 py-1 focus:border-blue-700 focus:outline-none;
+  }
+}
