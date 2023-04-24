@@ -14,7 +14,9 @@ export default function Books() {
   return (
     <BaseLayout>
       <BooksAddModifyForm formOperationType={"add"} />
-      {getBooksQuery.isLoading && "loading..."}
+      {getBooksQuery.isLoading && (
+        <div className="mb-3 mt-6 text-center">loading...</div>
+      )}
       {getBooksQuery.isFetched && <BooksList books={getBooksQuery.data!} />}
     </BaseLayout>
   );

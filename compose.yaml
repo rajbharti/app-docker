@@ -1,5 +1,8 @@
 services:
-  # ui:
+  ui:
+    build: ./ui
+    ports:
+      - 3000:3000
   api:
     build: ./api
     ports:

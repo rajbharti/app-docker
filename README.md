@@ -109,8 +109,14 @@ docker exec -it app-docker-mongo mongosh -u admin -p admin
 #### Start the application
 
 ```shell
+# API
 cd api
 # Create copy of .env.sample and rename it to .env in the same location
+pnpm i
+pnpm run dev
+
+# UI
+cd ui
 pnpm i
 pnpm run dev
 ```

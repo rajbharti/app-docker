@@ -93,7 +93,7 @@ export default function BooksAddModifyForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex gap-2 items-baseline justify-between"
+      className="flex items-baseline justify-between gap-2"
     >
       <select
         {...register("category")}

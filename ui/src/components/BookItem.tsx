@@ -34,7 +34,7 @@ export default function BookItem(book: Books) {
           book={book}
         />
       ) : (
-        <div className="flex gap-2 items-baseline justify-between">
+        <div className="flex items-baseline justify-between gap-2">
           <div className="basis-1/4">{book.category}</div>
           <div className="basis-1/3">{book.name} </div>
           <div className="w-28 text-right">
@@ -42,13 +42,13 @@ export default function BookItem(book: Books) {
           </div>
           <div className="text-right">
             <button
-              className="text-green-500 border-green-300 hover:text-green-700 mr-1"
+              className="mr-1 border-green-300 text-green-500 hover:text-green-700"
               onClick={handleEdit}
             >
               Edit
             </button>
             <button
-              className="text-red-500 border-red-300 hover:text-red-700"
+              className="border-red-300 text-red-500 hover:text-red-700"
               onClick={handleDelete}
             >
               Delete

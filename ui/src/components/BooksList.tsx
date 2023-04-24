@@ -13,7 +13,7 @@ export default function BooksList({ books }: BooksListProps) {
           ))}
         </ul>
       ) : (
-        <div className="text-center mt-6 mb-3 text-slate-400">No data!</div>
+        <div className="mb-3 mt-6 text-center text-slate-400">No data!</div>
       )}
     </section>
   );
