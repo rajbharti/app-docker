@@ -30,16 +30,26 @@ docker-compose up -d
 
 Open http://localhost:3000
 
-#### To view app files and mongodb
+#### To view source files and mongodb record in container
 
 ```shell
-# To view app files
+# api
 docker exec -it app-docker-api-1 sh
-ls
+    # then
+    ls
 
-# To view mongodb from mongosh
+# ui
+docker exec -it app-docker-ui-1 sh
+    # then
+    ls usr/share/nginx/html
+
+# mongodb
 docker exec -it app-docker-mongo-1 mongosh -u admin -p admin
-show dbs
+    # then
+    show dbs
+    use books
+    show collections
+    db.tech.find()
 
 # To view mongodb from browser
 http://localhost:8081
@@ -58,6 +68,8 @@ docker-compose down --volumes --rmi "local"
 ```
 
 ## 2. Running application with `docker run`
+
+> Without Dockerfile and Compose file
 
 #### Create a docker network
 
