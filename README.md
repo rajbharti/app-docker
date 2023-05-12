@@ -129,6 +129,7 @@ pnpm run dev
 
 # UI
 cd ui
+# Create copy of .env.sample and rename it to .env in the same location
 pnpm run dev
 ```
 
