@@ -16,14 +16,14 @@
 - Install [Node](https://nodejs.org/en/download/)
 - Install [Docker](https://docs.docker.com/desktop/)
 
-## 1. Running application with `docker-compose`
+## 1. Running application with `docker compose`
 
 - Run following from root of project
 
 ```shell
 # It pulls and/or creates images
 # Creates network, volume, containers
-docker-compose up -d
+docker compose up -d
 ```
 
 #### Start the application
