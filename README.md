@@ -61,10 +61,10 @@ http://localhost:8081
 
 ```shell
 # remove containers
-docker-compose down --volumes
+docker compose down --volumes
 
 # to remove app images also
-docker-compose down --volumes --rmi "local"
+docker compose down --volumes --rmi "local"
 ```
 
 ## 2. Running application with `docker run`
