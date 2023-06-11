@@ -24,6 +24,9 @@
 # It pulls and/or creates images
 # Creates network, volume, containers
 docker compose up -d
+
+# To recreate containers after making changes to local
+docker compose up -d --build
 ```
 
 #### Start the application
