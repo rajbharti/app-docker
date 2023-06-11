@@ -98,7 +98,10 @@ export default function BooksAddModifyForm({
       <select
         {...register("category")}
         defaultValue={fieldInitialValues.category}
-        className={classnames("basis-1/4", errors.category && "border-red-400")}
+        className={classnames(
+          "basis-1/4 bg-white",
+          errors.category && "border-red-400"
+        )}
       >
         <option value="">Select category</option>
         {booksCategory.map((category: string) => (
@@ -112,7 +115,7 @@ export default function BooksAddModifyForm({
         type="text"
         placeholder="Enter book name"
         defaultValue={fieldInitialValues.name}
-        className={classnames("basis-1/3", errors.name && "border-red-400")}
+        className={classnames("w-60", errors.name && "border-red-400")}
       />
       <input
         type="number"
@@ -120,7 +123,7 @@ export default function BooksAddModifyForm({
         placeholder="Enter price"
         defaultValue={fieldInitialValues.price}
         className={classnames(
-          "w-28 text-right",
+          "w-32 text-right",
           errors.price && "border-red-400"
         )}
       />

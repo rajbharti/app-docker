@@ -17,7 +17,9 @@ export default function Books() {
       {getBooksQuery.isLoading && (
         <div className="mb-3 mt-6 text-center">loading...</div>
       )}
-      {getBooksQuery.isFetched && <BooksList books={getBooksQuery.data!} />}
+      {getBooksQuery.isFetched && (
+        <BooksList books={getBooksQuery?.data || []} />
+      )}
     </BaseLayout>
   );
 }

@@ -25,7 +25,7 @@ router
       const db = await getDb();
 
       const result = await db?.collection(collection).insertOne(req.body);
-      res.status(200).send(result);
+      res.status(201).send(result);
     } catch (e) {
       console.error(e);
       res.status(400).json({ error: "Error in creating a new book" });
