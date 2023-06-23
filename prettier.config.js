@@ -4,5 +4,6 @@
 
 module.exports = {
   plugins: [require("prettier-plugin-tailwindcss")],
+  // referencing it as it is in different dir or else not required
   tailwindConfig: "./ui/tailwind.config.cjs",
 };
