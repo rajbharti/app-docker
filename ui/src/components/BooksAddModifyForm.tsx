@@ -11,10 +11,10 @@ import { saveBook, updateBook } from "../utils/services";
 const schema = z.object({
   category: z.string().min(1),
   name: z.string().trim().min(5),
-  price: z.coerce.number().min(1).max(9999),
+  price: z.coerce.number().min(50).max(9999),
 });
 
-const booksCategory: string[] = [
+const booksCategory: readonly string[] = [
   "JavaScript",
   "Typescript",
   "React",
