@@ -4,9 +4,11 @@ import type { Books } from "../types";
 import { BOOKS_QUERY_KEY } from "../utils/constants";
 import { deleteBook } from "../utils/services";
 import BooksAddModifyForm from "./BooksAddModifyForm";
+import Modal from "./Modal";
 
 export default function BookItem(book: Books) {
   const [toggleForm, setToggleForm] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -22,7 +24,16 @@ export default function BookItem(book: Books) {
   };
 
   const handleDelete: React.MouseEventHandler<HTMLButtonElement> = () => {
+    setIsModalOpen(true);
+  };
+
+  function handleCloseModal() {
+    setIsModalOpen(false);
+  }
+
+  const handleDeleteConfirm = () => {
     deleteBookMutation.mutate(book._id as string);
+    handleCloseModal();
   };
 
   return (
@@ -56,6 +67,14 @@ export default function BookItem(book: Books) {
           </div>
         </div>
       )}
+      <Modal
+        isOpen={isModalOpen}
+        title="Are you sure want to delete?"
+        confirmLabel="Yes"
+        denyLabel="No"
+        onClose={handleCloseModal}
+        onConfirm={handleDeleteConfirm}
+      />
     </li>
   );
 }
