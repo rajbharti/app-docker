@@ -24,9 +24,16 @@ const fetchOptions = (options?: RequestInit): RequestInit => ({
   },
 });
 
+async function checkError(response: Response) {
+  if (!response.ok) {
+    const { error } = await response.json();
+    throw new Error(error);
+  }
+}
+
 export async function getBooks(): Promise<Books[]> {
   const response = await fetch(endpoints.getBooks(), fetchOptions());
-
+  await checkError(response);
   return response.json();
 }
 
@@ -38,7 +45,7 @@ export async function saveBook(data: Books): Promise<Record<string, any>> {
       body: JSON.stringify(data),
     })
   );
-
+  await checkError(response);
   return response.json();
 }
 
@@ -51,7 +58,7 @@ export async function updateBook(data: Books): Promise<Record<string, any>> {
       body: JSON.stringify(rest),
     })
   );
-
+  await checkError(response);
   return response.json();
 }
 
@@ -62,6 +69,6 @@ export async function deleteBook(id: string): Promise<Record<string, any>> {
       method: "DELETE",
     })
   );
-
+  await checkError(response);
   return response.json();
 }
