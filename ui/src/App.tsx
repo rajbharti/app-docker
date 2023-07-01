@@ -1,5 +1,20 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  MutationCache,
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ToastContainer, toast } from "react-toastify";
 import Books from "./components/Books";
+import "react-toastify/dist/ReactToastify.css";
+
+const onError = (error: any) => {
+  toast(error.message, {
+    type: "error",
+    theme: "dark",
+  });
+};
 
 // create a client
 const queryClient = new QueryClient({
@@ -11,6 +26,12 @@ const queryClient = new QueryClient({
       retry: false,
     },
   },
+  queryCache: new QueryCache({
+    onError,
+  }),
+  mutationCache: new MutationCache({
+    onError,
+  }),
 });
 
 export default function App() {
@@ -18,6 +39,8 @@ export default function App() {
     // provide the client to your app
     <QueryClientProvider client={queryClient}>
       <Books />
+      <ToastContainer />
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }
