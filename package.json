@@ -8,7 +8,11 @@
     "prepare": "husky install",
     "prettier:options": "prettier --ignore-unknown .",
     "lint:prettier": "npm run prettier:options -- --check",
-    "fix:prettier": "npm run prettier:options -- --write"
+    "fix:prettier": "npm run prettier:options -- --write",
+    "dev:build": "docker compose up -d",
+    "dev:rebuild": "docker compose up -d --build",
+    "dev:down": "docker compose down --volumes",
+    "dev:down:images": "docker compose down --volumes --rmi local"
   },
   "lint-staged": {
     "**/**": "prettier --write --ignore-unknown"
