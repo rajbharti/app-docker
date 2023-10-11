@@ -23,10 +23,10 @@
 ```shell
 # It pulls and/or creates images
 # Creates network, volume, containers
-docker compose up -d
+pnpm dev:build # docker compose up -d
 
 # To recreate containers after making changes to local
-docker compose up -d --build
+pnpm dev:rebuild # docker compose up -d --build
 ```
 
 #### Start the application
@@ -64,10 +64,10 @@ http://localhost:8081
 
 ```shell
 # remove containers
-docker compose down --volumes
+pnpm dev:down # docker compose down --volumes
 
 # to remove app images also
-docker compose down --volumes --rmi "local"
+pnpm dev:down:images # docker compose down --volumes --rmi "local"
 ```
 
 ## 2. Running application with `docker run`

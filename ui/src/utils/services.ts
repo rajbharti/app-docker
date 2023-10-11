@@ -1,6 +1,6 @@
 import type { Books } from "../types";
 
-interface IEndpoints {
+interface Endpoints {
   getBooks: () => string;
   saveBook: () => string;
   updateBook: (_id: string) => string;
@@ -9,7 +9,7 @@ interface IEndpoints {
 
 const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL;
 
-const endpoints: IEndpoints = {
+const endpoints: Endpoints = {
   getBooks: () => `${API_BASE_URL}/books`,
   saveBook: () => `${API_BASE_URL}/books`,
   updateBook: (_id: string) => `${API_BASE_URL}/books/${_id}`,

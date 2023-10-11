@@ -1,6 +1,3 @@
 - sharing prettier, eslint, tsconfig
-- use of volumes in frontend and backend
-- proper api structure
-- use prisma
 - secrets
   - https://docs.docker.com/engine/swarm/secrets/#use-secrets-in-compose

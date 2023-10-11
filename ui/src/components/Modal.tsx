@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-interface Props {
+interface ModalProps {
   isOpen?: boolean;
   title: string;
   children?: React.ReactNode;
@@ -19,7 +19,7 @@ export default function Modal({
   denyLabel = "Close",
   onClose,
   onConfirm,
-}: Props) {
+}: ModalProps) {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>
